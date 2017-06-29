@@ -7,7 +7,9 @@ repositories {
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'com.unboundid:unboundid-ldapsdk:4.0.0'
     compile 'org.apache.zookeeper:zookeeper:3.4.5'
 
     testCompile 'junit:junit:4.11'
+    testCompile 'org.powermock:powermock-mockito-release-full:1.5.4'
 }

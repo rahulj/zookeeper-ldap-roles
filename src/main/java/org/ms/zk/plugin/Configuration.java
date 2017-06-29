@@ -16,7 +16,6 @@ public class Configuration {
       throw new IllegalArgumentException("missing system property org.ms.zk.plugin.configuration");
     }
     bundle = new PropertyResourceBundle(new FileInputStream(propFile));
-
   }
 
   public static String get(String key) throws IOException {
