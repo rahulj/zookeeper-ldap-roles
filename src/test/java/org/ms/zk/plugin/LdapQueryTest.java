@@ -29,7 +29,7 @@ public class LdapQueryTest extends TestBase {
 
     LDAPConnection mockConnection = mock(LDAPConnection.class);
     SearchResult mockSearchResult = mock(SearchResult.class);
-    whenNew(LDAPConnection.class).withArguments("10.10.10.10", 22389, "cn=Manager,dc=local", "secret").thenReturn(mockConnection);
+    whenNew(LDAPConnection.class).withArguments("10.10.10.10", 22389).thenReturn(mockConnection);
     when(mockConnection.search(baseDN, SearchScope.ONE, filter)).thenReturn(mockSearchResult);
     List<SearchResultEntry> searchResultEntry = singletonList(new SearchResultEntry("cn=Manager,dc=local", new Attribute[]{attribute}));
 
