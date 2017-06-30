@@ -3,11 +3,9 @@ package org.ms.zk.plugin.matcher;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.LDAPException;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.ms.zk.plugin.LdapQuery;
 import org.ms.zk.plugin.TestBase;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,9 +16,8 @@ import static org.ms.zk.plugin.LdapQuery.getAttributes;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
 @PrepareForTest({LdapQuery.class, AdminRoleMatcher.class})
-public class AdminRoleMatcherTest extends TestBase {
+public class RoleMatcherTest extends TestBase {
 
   @Test
   public void shouldMatchAdminRole() throws IOException, LDAPException {

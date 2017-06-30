@@ -18,15 +18,13 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
   @Override
   public boolean matches(String id, String aclExpr) {
     logger.info(format("matching id=%s, acl=%s", id, aclExpr));
-
-    AclRole role = AclRole.get(aclExpr);
-
     try {
-      return role.match(id);
+
+      return AclRole.get(aclExpr).match(id);
+
     } catch (IOException | LDAPException e) {
       logger.warn("cannot authorize " + id, e);
       return false;
     }
-
   }
 }

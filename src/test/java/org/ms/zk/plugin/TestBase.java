@@ -1,7 +1,9 @@
 package org.ms.zk.plugin;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static java.lang.System.getProperty;
 import static java.lang.System.getenv;
@@ -9,6 +11,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @PrepareForTest(Configuration.class)
+@RunWith(PowerMockRunner.class)
 public class TestBase {
 
   public static void mockConfiguration() {

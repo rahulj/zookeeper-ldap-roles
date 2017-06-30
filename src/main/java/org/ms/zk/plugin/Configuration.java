@@ -19,7 +19,7 @@ public class Configuration {
     bundle = new PropertyResourceBundle(new FileInputStream(propFile));
   }
 
-  public static String get(String key, String... args) throws IOException {
+  public static String get(String key, Object... args) throws IOException {
     if (bundle == null) loadBundle();
 
     return format(bundle.getString(key), args);
