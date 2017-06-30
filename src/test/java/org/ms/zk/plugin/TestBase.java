@@ -21,7 +21,7 @@ public class TestBase {
     mockStatic(System.class);
     when(getProperty("org.ms.zk.plugin.configuration")).thenReturn(testFilePath);
 
-    mockEnv("TREADMILL_LDAP", "10.10.10.10:22389");
+    mockEnv("TREADMILL_LDAP", "ldap://10.10.10.10:22389");
     mockEnv("TREADMILL_LDAP_USER", "cn=Manager,dc=local");
     mockEnv("TREADMILL_LDAP_SUFFIX", "dc=suffix");
     mockEnv("TREADMILL_CELL", "cellABC");

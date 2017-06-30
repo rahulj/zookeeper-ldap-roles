@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
 import static java.lang.System.getenv;
 import static org.ms.zk.plugin.Configuration.get;
 
@@ -20,11 +19,11 @@ public class LdapQuery {
   }
 
   private static LDAPConnection getConnection() throws LDAPException, IOException {
-    String[] ldapUrl = getenv("TREADMILL_LDAP").split(":", 2);
+    LDAPURL ldapUrl = new LDAPURL(getenv("TREADMILL_LDAP"));
     String userDN = getenv("TREADMILL_LDAP_USER");
     String password = get("password");
 
-    return new LDAPConnection(ldapUrl[0], parseInt(ldapUrl[1]), userDN, password);
+    return new LDAPConnection(ldapUrl.getHost(), ldapUrl.getPort(), userDN, password);
   }
 
 //  public static void main(String[] args) throws LDAPException, IOException {
