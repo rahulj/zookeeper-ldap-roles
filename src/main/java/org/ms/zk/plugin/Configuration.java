@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.PropertyResourceBundle;
 
 import static java.lang.System.getProperty;
+import static java.text.MessageFormat.format;
 
 public class Configuration {
   static PropertyResourceBundle bundle;
@@ -18,9 +19,9 @@ public class Configuration {
     bundle = new PropertyResourceBundle(new FileInputStream(propFile));
   }
 
-  public static String get(String key) throws IOException {
+  public static String get(String key, String... args) throws IOException {
     if (bundle == null) loadBundle();
 
-    return bundle.getString(key);
+    return format(bundle.getString(key), args);
   }
 }
