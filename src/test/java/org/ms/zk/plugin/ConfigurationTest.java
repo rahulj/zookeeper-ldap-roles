@@ -1,6 +1,5 @@
 package org.ms.zk.plugin;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -12,12 +11,6 @@ import static org.ms.zk.plugin.Configuration.get;
 
 @RunWith(PowerMockRunner.class)
 public class ConfigurationTest extends TestBase {
-
-  @Before
-  public void setup() {
-    mockConfiguration();
-  }
-
   @Test
   public void shouldLoadBundleIfFileIsPassedAsSystemProperty() throws IOException {
 

@@ -1,11 +1,13 @@
 package org.ms.zk.plugin;
 
 
+import com.unboundid.ldap.sdk.LDAPException;
 import org.apache.zookeeper.server.auth.SASLAuthenticationProvider;
 import org.slf4j.Logger;
 
+import java.io.IOException;
+
 import static java.lang.String.format;
-import static org.ms.zk.plugin.AclRole.readers;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
@@ -19,7 +21,12 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
 
     AclRole role = AclRole.get(aclExpr);
 
-    return role == readers || RoleMatcher.matches(role, aclExpr);
+    try {
+      return role.match(id);
+    } catch (IOException | LDAPException e) {
+      logger.warn("cannot authorize " + id, e);
+      return false;
+    }
 
   }
 }

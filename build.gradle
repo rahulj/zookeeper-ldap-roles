@@ -11,5 +11,5 @@ dependencies {
     compile 'org.apache.zookeeper:zookeeper:3.4.5'
 
     testCompile 'junit:junit:4.11'
-    testCompile 'org.powermock:powermock-mockito-release-full:1.5.4'
+    testCompile 'org.powermock:powermock-mockito-release-full:1.5.6'
 }
