@@ -1,6 +1,8 @@
 package org.treadmill.zk.plugin.matcher.role;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.LDAPException;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import java.util.Collection;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.treadmill.zk.plugin.utils.Configuration.get;
 
+@Singleton
 public class AdminRoleMatcher extends Matcher {
 
   public static final String MASTER_HOSTNAME = "master-hostname;";
@@ -21,12 +24,16 @@ public class AdminRoleMatcher extends Matcher {
 
   private static final Logger logger = getLogger(AdminRoleMatcher.class);
 
-  @Inject
   LdapQuery ldapQuery;
+
+  @Inject
+  public AdminRoleMatcher(LdapQuery ldapQuery) {
+    this.ldapQuery= ldapQuery;
+  }
 
   @Override
   public boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException {
-    logger.info("matching id={} against aclExpr={}", id, aclExpr);
+    logger.info("matching id={} against aclExpr={}, ldapQuery={}", id, aclExpr, ldapQuery);
 
     String hostName = id.split("@")[0].replace(HOST_PREFIX, "");
 

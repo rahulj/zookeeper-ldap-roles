@@ -13,7 +13,7 @@ public class MatcherTest extends TestBase {
 
   @Test
   public void shouldMatchRealm() throws IOException {
-    Matcher matcher = new AdminRoleMatcher();
+    Matcher matcher = new AdminRoleMatcher(null);
     String id = "host/someHost@TREADMILL";
 
     assertTrue(matcher.matchRealm(id));
@@ -21,7 +21,7 @@ public class MatcherTest extends TestBase {
 
   @Test
   public void shouldNotMatchIfRealmIsDifferent() throws IOException {
-    Matcher matcher = new AdminRoleMatcher();
+    Matcher matcher = new AdminRoleMatcher(null);
     String id = "host/someHost@SOMETHING_OTHER_THAN_MOCKED_REALM";
 
     assertFalse(matcher.matchRealm(id));
@@ -29,7 +29,7 @@ public class MatcherTest extends TestBase {
 
   @Test
   public void shouldNotMatchForIdWithoutRealm() throws IOException {
-    Matcher matcher = new AdminRoleMatcher();
+    Matcher matcher = new AdminRoleMatcher(null);
     String id = "host/someHostWithoutRealm";
 
     assertFalse(matcher.matchRealm(id));

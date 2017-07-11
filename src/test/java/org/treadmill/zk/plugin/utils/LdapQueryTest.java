@@ -1,5 +1,6 @@
 package org.treadmill.zk.plugin.utils;
 
+import com.google.inject.Provider;
 import com.unboundid.ldap.sdk.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,13 +27,15 @@ public class LdapQueryTest extends TestBase {
     Attribute attribute = new Attribute("master-hostname", "master1.treadmill");
 
     LDAPConnection mockConnection = mock(LDAPConnection.class);
+    Provider<LDAPInterface> mockProvider = mock(Provider.class);
+    when(mockProvider.get()).thenReturn(mockConnection);
     SearchResult mockSearchResult = mock(SearchResult.class);
     List<SearchResultEntry> searchResultEntry = singletonList(new SearchResultEntry("cn=Manager,dc=local", new Attribute[]{attribute}));
 
     when(mockConnection.search(baseDN, SearchScope.ONE, filter)).thenReturn(mockSearchResult);
     when(mockSearchResult.getSearchEntries()).thenReturn(searchResultEntry);
 
-    Collection<Attribute> attributes = new LdapQuery(mockConnection).getAttributes(baseDN, filter);
+    Collection<Attribute> attributes = new LdapQuery(mockProvider).getAttributes(baseDN, filter);
     assertTrue(attributes.contains(attribute));
   }
 }

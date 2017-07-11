@@ -1,12 +1,14 @@
 package org.treadmill.zk.plugin.matcher;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.treadmill.zk.plugin.matcher.role.AdminRoleMatcher;
 import org.treadmill.zk.plugin.matcher.role.ReaderRoleMatcher;
 import org.treadmill.zk.plugin.matcher.role.ServerRoleMatcher;
 
 import java.io.IOException;
 
+@Singleton
 public class MatcherFactory {
   @Inject
   AdminRoleMatcher adminRoleMatcher;

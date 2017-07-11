@@ -1,6 +1,8 @@
 package org.treadmill.zk.plugin.matcher.role;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.unboundid.ldap.sdk.LDAPException;
 import org.slf4j.Logger;
 import org.treadmill.zk.plugin.matcher.Matcher;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.treadmill.zk.plugin.utils.Configuration.get;
 
+@Singleton
 public class ServerRoleMatcher extends Matcher {
 
   public static final String FILTER_FOR_SERVER_ROLE = "filter_for_server_role";
@@ -18,12 +21,16 @@ public class ServerRoleMatcher extends Matcher {
 
   private static final Logger logger = getLogger(ServerRoleMatcher.class);
 
-  @Inject
   LdapQuery ldapQuery;
+
+  @Inject
+  public ServerRoleMatcher(LdapQuery ldapQuery) {
+    this.ldapQuery = ldapQuery;
+  }
 
   @Override
   public boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException {
-    logger.info("matching id={} against aclExpr={}", id, aclExpr);
+    logger.info("matching id={} against aclExpr={}, ldapQuery={}", id, aclExpr, ldapQuery);
 
     String hostName = id.split("@")[0].replace(HOST_PREFIX, "");
 

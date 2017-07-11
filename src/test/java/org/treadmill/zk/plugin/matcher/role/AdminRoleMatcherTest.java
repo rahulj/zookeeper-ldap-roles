@@ -3,9 +3,9 @@ package org.treadmill.zk.plugin.matcher.role;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.LDAPException;
 import org.junit.Test;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.treadmill.zk.plugin.TestBase;
 import org.treadmill.zk.plugin.utils.LdapQuery;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,8 +22,7 @@ public class AdminRoleMatcherTest extends TestBase {
   @Test
   public void shouldMatchAdminRole() throws IOException, LDAPException {
     LdapQuery mockedQuery = mock(LdapQuery.class);
-    AdminRoleMatcher adminRoleMatcher = new AdminRoleMatcher();
-    adminRoleMatcher.ldapQuery = mockedQuery;
+    AdminRoleMatcher adminRoleMatcher = new AdminRoleMatcher(mockedQuery);
 
     String baseDN = "ou=cells,ou=treadmill,dc=suffix";
     String filter = "(&(objectClass=tmCell)(cell=local))";

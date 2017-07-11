@@ -18,8 +18,8 @@ public class MatcherFactoryTest extends TestBase {
   public void before() {
     factory = new MatcherFactory();
     factory.readerRoleMatcher = new ReaderRoleMatcher();
-    factory.adminRoleMatcher = new AdminRoleMatcher();
-    factory.serverRoleMatcher = new ServerRoleMatcher();
+    factory.adminRoleMatcher = new AdminRoleMatcher(null);
+    factory.serverRoleMatcher = new ServerRoleMatcher(null);
     factory.userMatcher = new UserMatcher();
   }
 
