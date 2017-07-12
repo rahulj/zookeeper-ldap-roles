@@ -3,6 +3,7 @@ package org.treadmill.zk.plugin.matcher;
 import com.unboundid.ldap.sdk.LDAPException;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import static org.treadmill.zk.plugin.utils.Configuration.get;
 
@@ -10,11 +11,11 @@ public abstract class Matcher {
 
   public static final String HOST_PREFIX = "host/";
 
-  public boolean matches(String id, String aclExpr) throws IOException, LDAPException {
+  public boolean matches(String id, String aclExpr) throws IOException, LDAPException, ExecutionException {
     return matchRealm(id) && matchAcl(id, aclExpr);
   }
 
-  public abstract boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException;
+  public abstract boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException, ExecutionException;
 
   boolean matchRealm(String id) throws IOException {
     String[] splits = id.split("@", 2);

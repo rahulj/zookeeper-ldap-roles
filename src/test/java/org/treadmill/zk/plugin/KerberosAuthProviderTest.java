@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 
-public class KerberosAuthProviderTest {
+public class KerberosAuthProviderTest extends TestBase {
 
   @Test
   public void testIfValid() {

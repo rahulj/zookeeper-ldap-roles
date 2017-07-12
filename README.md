@@ -10,13 +10,15 @@ usage
 * create a configuration properties with following properties
 
    ```treadmill_ldap=ldap://10.10.10.10:22389
+   realm=TREADMILL
    treadmill_ldap_suffix=dc=suffix 
    treadmill_cell=local
    base_dn_for_admin_role=ou=cells,ou=treadmill,{0} 
    filter_for_admin_role=(&(objectClass=tmCell)(cell={0}))   
    base_dn_for_server_role=ou=servers,ou=treadmill,{0}   
-   filter_for_server_role=(&(objectClass=tmServer)(cell={0})(server={1})   
-   realm=TREADMILL```
+   filter_for_server_role=(&(objectClass=tmServer)(cell={0})(server={1})
+   cache_spec=maximumSize=1000,expireAfterWrite=6h```
+
 
 * add following command to ZOOKEEPER_HOME/conf/java.env
   ```export JVMFLAGS="-Dorg.treadmill.zk.plugin.configuration=CONFIG_FILE_PATH"```

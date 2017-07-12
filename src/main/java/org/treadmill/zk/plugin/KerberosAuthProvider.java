@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.treadmill.zk.plugin.matcher.MatcherFactory;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -28,7 +29,7 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
     logger.info(format("matching id=%s, acl=%s", id, aclExpr));
     try {
       return factory.getMatcher(aclExpr).matches(id, aclExpr);
-    } catch (IOException | LDAPException e) {
+    } catch (IOException | LDAPException | ExecutionException e) {
       logger.warn("cannot authorize " + id, e);
       return false;
     }
