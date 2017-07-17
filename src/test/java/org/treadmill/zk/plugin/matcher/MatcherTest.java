@@ -73,7 +73,7 @@ public class MatcherTest extends TestBase {
   Matcher falseMatcher() {
     return new Matcher() {
       @Override
-      public boolean matchAcl(String principal, String aclExpr) throws IOException, LDAPException, ExecutionException {
+      public boolean matchAcl(String principal, String aclExpr) throws ExecutionException {
         return false;
       }
     };
@@ -82,7 +82,7 @@ public class MatcherTest extends TestBase {
   Matcher trueMatcher() {
     return new Matcher() {
       @Override
-      public boolean matchAcl(String principal, String aclExpr) throws IOException, LDAPException, ExecutionException {
+      public boolean matchAcl(String principal, String aclExpr) throws ExecutionException {
         return true;
       }
     };

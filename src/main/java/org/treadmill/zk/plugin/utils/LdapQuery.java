@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.treadmill.zk.plugin.utils.Configuration.get;
@@ -31,6 +32,8 @@ public class LdapQuery {
     List<SearchResultEntry> searchEntries = ldapProvider.get()
       .search(baseDN, SearchScope.ONE, filter).getSearchEntries();
 
+    if (searchEntries == null) return emptySet();
+
     logger.info("found {} attributes for baseDN={}, filter={}", searchEntries.size(), baseDN, filter);
 
     return searchEntries.stream()
@@ -43,6 +46,8 @@ public class LdapQuery {
     String filter = get("filter_for_admin_role");
     SearchResultEntry searchResultEntry = ldapProvider.get()
       .searchForEntry(baseDN, SearchScope.ONE, filter);
+
+    if (searchResultEntry == null) return emptySet();
 
     logger.info("found {} attributes for baseDN={}, filter={}",
       searchResultEntry.getAttributes().size(), baseDN, filter);

@@ -2,7 +2,6 @@ package org.treadmill.zk.plugin;
 
 
 import com.google.inject.Injector;
-import com.unboundid.ldap.sdk.LDAPException;
 import org.apache.zookeeper.server.auth.SASLAuthenticationProvider;
 import org.slf4j.Logger;
 import org.treadmill.zk.plugin.matcher.Matcher;
@@ -40,7 +39,7 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
       Matcher matcher = acl[0].equals("role") ? roleMatcher : userMatcher;
       return matcher.matches(id, acl[1]);
 
-    } catch (IOException | LDAPException | ExecutionException e) {
+    } catch (IOException | ExecutionException e) {
       logger.error("cannot authorize {} with acl {}", id, aclExpr, e);
       return false;
     }

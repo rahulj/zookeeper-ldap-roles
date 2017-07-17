@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.unboundid.ldap.sdk.LDAPException;
+import com.unboundid.ldap.sdk.LDAPSearchException;
 import org.slf4j.Logger;
 import org.treadmill.zk.plugin.utils.LdapQuery;
 
@@ -28,22 +28,22 @@ public class RoleMatcher extends Matcher {
     setupCache(ldapQuery);
   }
 
+  @Override
+  public boolean matchAcl(String principal, String role) throws ExecutionException {
+    if ("readers".equals(role)) return true;
+
+    Set<String> members = this.cache.get(role);
+    return members != null && members.contains(principal.replace("host/", ""));
+  }
+
   private void setupCache(final LdapQuery ldapQuery) throws IOException {
     cache = CacheBuilder.from(get("cache_spec"))
       .build(new CacheLoader<String, Set<String>>() {
         @Override
-        public Set<String> load(String key) throws Exception {
+        public Set<String> load(String key) throws IOException, LDAPSearchException {
           logger.info("querying LDAP for {}", key);
           return "servers".equals(key) ? ldapQuery.searchServers() : ldapQuery.searchAdmins();
         }
       });
-  }
-
-  @Override
-  public boolean matchAcl(String principal, String role) throws IOException, LDAPException, ExecutionException {
-    if ("readers".equals(role)) return true;
-
-    Set<String> members = this.cache.get(role);
-    return members != null && members.contains(principal.replace("host/",""));
   }
 }
