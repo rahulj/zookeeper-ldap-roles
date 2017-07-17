@@ -9,16 +9,19 @@ import static org.treadmill.zk.plugin.utils.Configuration.get;
 
 public abstract class Matcher {
 
-  public static final String HOST_PREFIX = "host/";
-
   public boolean matches(String id, String aclExpr) throws IOException, LDAPException, ExecutionException {
-    return matchRealm(id) && matchAcl(id, aclExpr);
+    String[] splits = id.split("@", 2);
+    String principal = splits[0];
+    String realm = splits[1];
+
+    return splits.length == 2
+      && matchRealm(realm)
+      && matchAcl(principal, aclExpr);
   }
 
-  public abstract boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException, ExecutionException;
+  public abstract boolean matchAcl(String principal, String aclExpr) throws IOException, LDAPException, ExecutionException;
 
-  boolean matchRealm(String id) throws IOException {
-    String[] splits = id.split("@", 2);
-    return splits.length == 2 && get("realm").equalsIgnoreCase(splits[1]);
+  boolean matchRealm(String realm) throws IOException {
+    return get("realm").equalsIgnoreCase(realm);
   }
 }

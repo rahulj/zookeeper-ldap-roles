@@ -14,8 +14,8 @@ public class UserMatcher extends Matcher {
   private static final Logger logger = getLogger(UserMatcher.class);
 
   @Override
-  public boolean matchAcl(String id, String aclExpr) throws IOException, LDAPException {
-    logger.info("UserMatcher {}, id={}, aclExpr={}", this, id, aclExpr);
-    return id.split("@")[0].equals(aclExpr);
+  public boolean matchAcl(String principal, String aclExpr) throws IOException, LDAPException {
+    logger.info("UserMatcher {}, id={}, aclExpr={}", this, principal, aclExpr);
+    return principal.equals(aclExpr);
   }
 }
