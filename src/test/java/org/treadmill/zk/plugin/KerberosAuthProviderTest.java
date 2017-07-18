@@ -1,6 +1,6 @@
 package org.treadmill.zk.plugin;
 
-import com.google.inject.Injector;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.treadmill.zk.plugin.matcher.RoleMatcher;
@@ -16,24 +16,21 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @PrepareForTest({KerberosAuthProvider.class, KrbGuiceModule.class})
 public class KerberosAuthProviderTest extends TestBase {
+  RoleMatcher mockedRoleMatcher;
+  UserMatcher mockedUserMatcher;
 
-  @Test
-  public void testIfValid() {
-    KerberosAuthProvider provider = new KerberosAuthProvider();
-    assertTrue(provider.isValid("host/hostname@domain"));
+  @Before
+  public void setup() {
+    mockStatic(KrbGuiceModule.class);
+    mockedRoleMatcher = mock(RoleMatcher.class);
+    mockedUserMatcher = mock(UserMatcher.class);
+    when(KrbGuiceModule.getInstance(RoleMatcher.class)).thenReturn(mockedRoleMatcher);
+    when(KrbGuiceModule.getInstance(UserMatcher.class)).thenReturn(mockedUserMatcher);
 
   }
 
   @Test
   public void shouldMatchUsingUserMatcher() throws IOException, ExecutionException {
-    mockStatic(KrbGuiceModule.class);
-    Injector mockInjector = mock(Injector.class);
-    when(KrbGuiceModule.injector()).thenReturn(mockInjector);
-    RoleMatcher mockedRoleMatcher = mock(RoleMatcher.class);
-    UserMatcher mockedUserMatcher = mock(UserMatcher.class);
-
-    when(mockInjector.getInstance(RoleMatcher.class)).thenReturn(mockedRoleMatcher);
-    when(mockInjector.getInstance(UserMatcher.class)).thenReturn(mockedUserMatcher);
     when(mockedUserMatcher.matches("someUser@SOME_DOMAIN", "someUser")).thenReturn(true);
 
     KerberosAuthProvider provider = new KerberosAuthProvider();
@@ -44,14 +41,6 @@ public class KerberosAuthProviderTest extends TestBase {
 
   @Test
   public void shouldMatchUsingRoleMatcher() throws IOException, ExecutionException {
-    mockStatic(KrbGuiceModule.class);
-    Injector mockInjector = mock(Injector.class);
-    when(KrbGuiceModule.injector()).thenReturn(mockInjector);
-    RoleMatcher mockedRoleMatcher = mock(RoleMatcher.class);
-    UserMatcher mockedUserMatcher = mock(UserMatcher.class);
-
-    when(mockInjector.getInstance(RoleMatcher.class)).thenReturn(mockedRoleMatcher);
-    when(mockInjector.getInstance(UserMatcher.class)).thenReturn(mockedUserMatcher);
     when(mockedRoleMatcher.matches("host/someUser@SOME_DOMAIN", "someRole")).thenReturn(true);
 
     assertTrue(new KerberosAuthProvider().matches("host/someUser@SOME_DOMAIN", "role/someRole"));

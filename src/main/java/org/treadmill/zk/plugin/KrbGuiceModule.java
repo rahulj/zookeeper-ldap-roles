@@ -18,9 +18,15 @@ import static org.treadmill.zk.plugin.utils.Configuration.get;
 public class KrbGuiceModule extends AbstractModule {
 
   private static final Logger logger = getLogger(KrbGuiceModule.class);
+  private static Injector injector;
 
-  public static Injector injector() {
-    return createInjector(new KrbGuiceModule());
+  private KrbGuiceModule() {
+  }
+
+  public static <T> T getInstance(Class<T> tClass) {
+    if (injector == null) injector = createInjector(new KrbGuiceModule());
+
+    return injector.getInstance(tClass);
   }
 
   @Override

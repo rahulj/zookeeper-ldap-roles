@@ -1,7 +1,6 @@
 package org.treadmill.zk.plugin;
 
 
-import com.google.inject.Injector;
 import org.apache.zookeeper.server.auth.SASLAuthenticationProvider;
 import org.slf4j.Logger;
 import org.treadmill.zk.plugin.matcher.RoleMatcher;
@@ -12,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.treadmill.zk.plugin.KrbGuiceModule.getInstance;
 
 
 public class KerberosAuthProvider extends SASLAuthenticationProvider {
@@ -22,11 +22,9 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
 
   UserMatcher userMatcher;
 
-
   public KerberosAuthProvider() {
-    Injector injector = KrbGuiceModule.injector();
-    roleMatcher = injector.getInstance(RoleMatcher.class);
-    userMatcher = injector.getInstance(UserMatcher.class);
+    roleMatcher = getInstance(RoleMatcher.class);
+    userMatcher = getInstance(UserMatcher.class);
   }
 
   @Override
