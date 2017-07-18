@@ -4,7 +4,6 @@ package org.treadmill.zk.plugin;
 import com.google.inject.Injector;
 import org.apache.zookeeper.server.auth.SASLAuthenticationProvider;
 import org.slf4j.Logger;
-import org.treadmill.zk.plugin.matcher.Matcher;
 import org.treadmill.zk.plugin.matcher.RoleMatcher;
 import org.treadmill.zk.plugin.matcher.UserMatcher;
 
@@ -36,9 +35,7 @@ public class KerberosAuthProvider extends SASLAuthenticationProvider {
     try {
       String[] acl = aclExpr.split("/", 2);
 
-      Matcher matcher = acl[0].equals("role") ? roleMatcher : userMatcher;
-      return matcher.matches(id, acl[1]);
-
+      return acl[0].equals("role") ? roleMatcher.matches(id, acl[1]) : userMatcher.matches(id, aclExpr);
     } catch (IOException | ExecutionException e) {
       logger.error("cannot authorize {} with acl {}", id, aclExpr, e);
       return false;
