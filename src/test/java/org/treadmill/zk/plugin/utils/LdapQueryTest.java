@@ -127,6 +127,22 @@ public class LdapQueryTest extends TestBase {
   }
 
   @Test
+  public void shouldReturnListOfAdminsIfThereIsUsernameAttribute() throws Exception {
+    SearchResultEntry searchResultEntry = new SearchResultEntry("", asList(
+      new Attribute("username", "someUser"),
+      new Attribute("master-hostname;master#id1", "master1")
+    ));
+
+    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.ONE, adminFilter)).thenReturn(searchResultEntry);
+
+    Set<String> masters = ldapQuery.searchAdmins();
+
+    assertEquals(2, masters.size());
+    assertTrue(masters.contains("someUser"));
+    assertTrue(masters.contains("master1"));
+  }
+
+  @Test
   @Ignore
   public void shouldLoadFromLdapIfNotFoundInCache() {
 
@@ -137,6 +153,4 @@ public class LdapQueryTest extends TestBase {
   public void shouldNotQueryLdapIfFoundInCache() {
 
   }
-
-
 }

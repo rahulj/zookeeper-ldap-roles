@@ -53,7 +53,7 @@ public class LdapQuery {
       searchResultEntry.getAttributes().size(), baseDN, filter);
 
     return searchResultEntry.getAttributes().stream()
-      .filter(a -> a.getName().startsWith("master-hostname;"))
+      .filter(a -> (a.getName().startsWith("master-hostname;") || a.getName().equals("username")))
       .map(Attribute::getValue).collect(toSet());
   }
 
