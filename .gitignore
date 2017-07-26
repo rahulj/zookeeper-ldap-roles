@@ -1,5 +1,6 @@
 # Ignore temporary files
 .*
+!.travis.yml
 
 # Ensure that .gitignore files are included
 !.gitignore
