@@ -2,7 +2,6 @@ package org.treadmill.zk.plugin.utils;
 
 import com.google.inject.Provider;
 import com.unboundid.ldap.sdk.*;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -140,17 +139,5 @@ public class LdapQueryTest extends TestBase {
     assertEquals(2, masters.size());
     assertTrue(masters.contains("someUser"));
     assertTrue(masters.contains("master1"));
-  }
-
-  @Test
-  @Ignore
-  public void shouldLoadFromLdapIfNotFoundInCache() {
-
-  }
-
-  @Test
-  @Ignore
-  public void shouldNotQueryLdapIfFoundInCache() {
-
   }
 }
