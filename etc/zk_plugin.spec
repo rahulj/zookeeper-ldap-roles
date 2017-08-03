@@ -5,6 +5,7 @@ Summary: zookeeper plugin for ldap
 Source0: zookeeper-ldap-plugin-0.1.0.tar.gz
 License: Apache License Version 2.0
 BuildArch: x86_64
+Requires: zookeeper
 BuildRoot: %{_tmppath}/%{name}-buildroot
 %description
 zookeeper plugin for ldap
