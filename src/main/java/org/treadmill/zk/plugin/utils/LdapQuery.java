@@ -30,7 +30,7 @@ public class LdapQuery {
     String baseDN = get("base_dn_for_server_role");
     String filter = get("filter_for_server_role");
     List<SearchResultEntry> searchEntries = ldapProvider.get()
-      .search(baseDN, SearchScope.ONE, filter).getSearchEntries();
+      .search(baseDN, SearchScope.SUB, filter).getSearchEntries();
 
     if (searchEntries == null) return emptySet();
 
@@ -45,7 +45,7 @@ public class LdapQuery {
     String baseDN = get("base_dn_for_admin_role");
     String filter = get("filter_for_admin_role");
     SearchResultEntry searchResultEntry = ldapProvider.get()
-      .searchForEntry(baseDN, SearchScope.ONE, filter);
+      .searchForEntry(baseDN, SearchScope.SUB, filter);
 
     if (searchResultEntry == null) return emptySet();
 

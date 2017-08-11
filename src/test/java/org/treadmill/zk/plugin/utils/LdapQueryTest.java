@@ -54,7 +54,7 @@ public class LdapQueryTest extends TestBase {
       new Attribute("master-hostname;master#id2", "master2")
     ));
 
-    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.ONE, adminFilter)).thenReturn(searchResultEntry);
+    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.SUB, adminFilter)).thenReturn(searchResultEntry);
 
     Set<String> masters = ldapQuery.searchAdmins();
     assertEquals(2, masters.size());
@@ -67,7 +67,7 @@ public class LdapQueryTest extends TestBase {
 
     SearchResultEntry searchResultEntry = new SearchResultEntry("", singletonList(new Attribute("some-other-attribute", "random")));
 
-    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.ONE, adminFilter)).thenReturn(searchResultEntry);
+    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.SUB, adminFilter)).thenReturn(searchResultEntry);
 
     Set<String> masters = ldapQuery.searchAdmins();
     assertTrue(masters.isEmpty());
@@ -76,7 +76,7 @@ public class LdapQueryTest extends TestBase {
   @Test
   public void shouldReturnEmptyListIfNoMatchingEntryFound() throws LDAPSearchException, IOException {
     final SearchResultEntry nullSearchResult = null;
-    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.ONE, adminFilter)).thenReturn(nullSearchResult);
+    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.SUB, adminFilter)).thenReturn(nullSearchResult);
 
     Set<String> masters = ldapQuery.searchAdmins();
     assertTrue(masters.isEmpty());
@@ -89,7 +89,7 @@ public class LdapQueryTest extends TestBase {
       new SearchResultEntry("", singletonList(new Attribute("server", "server1.treadmill"))),
       new SearchResultEntry("", singletonList(new Attribute("server", "server2.treadmill"))));
 
-    when(mockConnection.search(serverBaseDN, SearchScope.ONE, serverFilter)).thenReturn(mockSearchResult);
+    when(mockConnection.search(serverBaseDN, SearchScope.SUB, serverFilter)).thenReturn(mockSearchResult);
     when(mockSearchResult.getSearchEntries()).thenReturn(searchResultEntry);
 
     Set<String> servers = ldapQuery.searchServers();
@@ -104,7 +104,7 @@ public class LdapQueryTest extends TestBase {
     SearchResult mockSearchResult = mock(SearchResult.class);
     List<SearchResultEntry> searchResultEntry = emptyList();
 
-    when(mockConnection.search(serverBaseDN, SearchScope.ONE, serverFilter)).thenReturn(mockSearchResult);
+    when(mockConnection.search(serverBaseDN, SearchScope.SUB, serverFilter)).thenReturn(mockSearchResult);
     when(mockSearchResult.getSearchEntries()).thenReturn(searchResultEntry);
 
     Set<String> servers = ldapQuery.searchServers();
@@ -117,7 +117,7 @@ public class LdapQueryTest extends TestBase {
     SearchResult mockSearchResult = mock(SearchResult.class);
     final List<SearchResultEntry> nullSearchResult = null;
 
-    when(mockConnection.search(serverBaseDN, SearchScope.ONE, serverFilter)).thenReturn(mockSearchResult);
+    when(mockConnection.search(serverBaseDN, SearchScope.SUB, serverFilter)).thenReturn(mockSearchResult);
     when(mockSearchResult.getSearchEntries()).thenReturn(nullSearchResult);
 
     Set<String> servers = ldapQuery.searchServers();
@@ -132,7 +132,7 @@ public class LdapQueryTest extends TestBase {
       new Attribute("master-hostname;master#id1", "master1")
     ));
 
-    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.ONE, adminFilter)).thenReturn(searchResultEntry);
+    when(mockConnection.searchForEntry(adminBaseDN, SearchScope.SUB, adminFilter)).thenReturn(searchResultEntry);
 
     Set<String> masters = ldapQuery.searchAdmins();
 

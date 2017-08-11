@@ -7,6 +7,10 @@ import com.unboundid.ldap.sdk.LDAPConnection;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.LDAPInterface;
 import com.unboundid.ldap.sdk.LDAPURL;
+import com.unboundid.ldap.sdk.GSSAPIBindRequestProperties;
+import com.unboundid.ldap.sdk.GSSAPIBindRequest;
+import com.unboundid.ldap.sdk.BindResult;
+import com.unboundid.ldap.sdk.ResultCode;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -37,6 +41,15 @@ public class KrbGuiceModule extends AbstractModule {
   LDAPInterface provideLDAPInterface() throws LDAPException, IOException {
     LDAPURL ldapUrl = new LDAPURL(get("treadmill_ldap"));
     logger.info("creating new LDAP connection to {}", ldapUrl);
-    return new LDAPConnection(ldapUrl.getHost(), ldapUrl.getPort());
+    LDAPConnection connection = new LDAPConnection(ldapUrl.getHost(), ldapUrl.getPort());
+    String password = null;
+    GSSAPIBindRequestProperties gssapiProperties = new GSSAPIBindRequestProperties(null, password);
+    gssapiProperties.setJAASClientName("Server");
+    GSSAPIBindRequest bindRequest = new GSSAPIBindRequest(gssapiProperties);
+    BindResult bindResult = connection.bind(bindRequest);
+    if (bindResult.getResultCode().equals(ResultCode.SUCCESS)) {
+      return connection;
+    }
+    throw new LDAPException(bindResult.getResultCode());
   }
 }
