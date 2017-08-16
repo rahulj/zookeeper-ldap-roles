@@ -32,7 +32,7 @@ task fatJar(type: Jar, dependsOn: 'build') {
     with jar
 }
 
-task createRpm(type: Rpm) {
+task createRpm(type: Rpm, dependsOn: 'fatJar') {
     packageName 'zookeeper-ldap-plugin'
     version '0.1'
     release '0'
