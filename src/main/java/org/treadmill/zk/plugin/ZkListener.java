@@ -5,6 +5,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
@@ -61,10 +62,6 @@ public class ZkListener {
 
     private static String zkURL() throws IOException {
         String url = get("treadmill_zk");
-        if(url.contains("@")) {
-            String[] urlParts = url.split("@");
-            url = urlParts[urlParts.length - 1];
-        }
-        return url;
+        return url.contains("@") ? url.split("@", 2)[1] : url;
     }
 }
