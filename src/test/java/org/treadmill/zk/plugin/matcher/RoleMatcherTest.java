@@ -13,9 +13,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.treadmill.zk.plugin.TestBase;
 import org.treadmill.zk.plugin.ZkListener;
 import org.treadmill.zk.plugin.utils.LdapQuery;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
+
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
