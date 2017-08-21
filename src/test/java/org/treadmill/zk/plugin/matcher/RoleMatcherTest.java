@@ -1,30 +1,44 @@
 package org.treadmill.zk.plugin.matcher;
 
+import com.google.common.cache.LoadingCache;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.LDAPSearchException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.verification.VerificationModeFactory;
-import org.mockito.verification.VerificationMode;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.treadmill.zk.plugin.TestBase;
+import org.treadmill.zk.plugin.ZkListener;
 import org.treadmill.zk.plugin.utils.LdapQuery;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.*;
 
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ZkListener.class, RoleMatcher.class})
 public class RoleMatcherTest extends TestBase {
   LdapQuery mockedQuery;
   RoleMatcher matcher;
 
   @Before
-  public void setup() throws IOException {
+  public void setup() throws Exception {
+    mockStatic(ZkListener.class);
+    PowerMockito
+            .doNothing()
+            .when(ZkListener.class,
+                    "listen",
+                    Mockito.any(LoadingCache.class),
+                    Mockito.anyString());
     mockedQuery = mock(LdapQuery.class);
     matcher = new RoleMatcher(mockedQuery);
   }

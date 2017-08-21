@@ -6,7 +6,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.unboundid.ldap.sdk.LDAPSearchException;
+import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
+import org.treadmill.zk.plugin.ZkListener;
 import org.treadmill.zk.plugin.utils.LdapQuery;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class RoleMatcher extends Matcher {
 
 
   @Inject
-  public RoleMatcher(LdapQuery ldapQuery) throws IOException {
+  public RoleMatcher(LdapQuery ldapQuery) throws IOException, InterruptedException, KeeperException {
     setupCache(ldapQuery);
   }
 
@@ -36,7 +38,7 @@ public class RoleMatcher extends Matcher {
     return members != null && members.contains(principal.replace("host/", ""));
   }
 
-  private void setupCache(final LdapQuery ldapQuery) throws IOException {
+  private void setupCache(final LdapQuery ldapQuery) throws IOException, InterruptedException, KeeperException {
     cache = CacheBuilder.from(get("cache_spec"))
       .build(new CacheLoader<String, Set<String>>() {
         @Override
@@ -45,5 +47,7 @@ public class RoleMatcher extends Matcher {
           return "servers".equals(key) ? ldapQuery.searchServers() : ldapQuery.searchAdmins();
         }
       });
+
+      ZkListener.listen(this.cache, "servers");
   }
 }
