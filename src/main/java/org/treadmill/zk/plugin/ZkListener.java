@@ -53,7 +53,6 @@ public class ZkListener {
             @Override
             public void process(WatchedEvent event) {
                 if (event.getType() == Event.EventType.NodeChildrenChanged) {
-                    System.out.println("foo");
                     cache.invalidate(node);
                 }
             }
